@@ -1,60 +1,60 @@
-# 仇河东 324085503103 24机械1班 github：https://github.com/Key407/K
-## 拒绝采样的方法模拟样本.py
-```python
-import numpy as np
-import matplotlib.pyplot as plt
+#雷雨典 324080203104
+##拒绝采样的方法模拟样本。巴拉圭
+```大蟒
+将numpy作为np导入
+将matplotlib.pyplot作为plt导入
 
 # 参数设定
 R_sun = 8.3
 A = 20.41
-alpha = 9.03
+阿尔法= 9.03
 b = 13.99
 R_plt = 3.76
 
 # 定义目标函数
-def target_function(r):
-    return (A / (R_sun + R_plt)) * ((r + R_plt) / (R_sun + R_plt)) ** alpha * np.exp(-b * ((r - R_sun) / (R_sun + R_plt)) ** 2)
+定义目标函数(r):
+return(A/(R _ sun+R _ PLT))*((R+R _ PLT)/(R _ sun+R _ PLT))* * alpha * NP . exp(-b *(R-R _ sun)/(R _ sun+R _ PLT))* * 2)
 
-# 确定采样区间和提议分布（这里用均匀分布作为提议分布）
+# 确定采样区间和提议分布（这里用均匀分布作为提议分布)
 lower_bound = 0
-upper_bound = 20
-proposal_distribution = lambda: np.random.uniform(lower_bound, upper_bound)
+上限= 20
+proposal _ distribution = lambda:NP . random . uniform(下界，上界)
 
-# 找到M值（这里简单通过在区间内取一些点估算最大值来确定M）
-r_values = np.linspace(lower_bound, upper_bound, 1000)
-max_f = np.max(target_function(r_values))
-M = max_f  # 这里假设提议分布在区间内概率密度为1，实际取决于提议分布具体形式
+# 找到M值（这里简单通过在区间内取一些点估算最大值来确定m)
+r_values = np.linspace(下界，上界，1000)
+max_f = np.max(目标函数(r _值))
+M = max_f #这里假设提议分布在区间内概率密度为1,实际取决于提议分布具体形式
 
 # 拒绝采样
-samples = []
-while len(samples) < 130000:
-    candidate = proposal_distribution()
-    u = np.random.uniform(0, 1)
-    if u < target_function(candidate) / M:
-        samples.append(candidate)
+样本= []
+而len(样本)< 130000:
+候选人=建议_分布()
+u = np.random.uniform(0，1)
+如果u <目标函数(候选)/ M:
+样本.追加(候选)
 
-samples = np.array(samples)
+samples = np.array(样本)
 
 # 绘制目标函数曲线
-r_plot = np.linspace(lower_bound, upper_bound, 1000)
-plt.plot(r_plot, target_function(r_plot), label='Target Function')
+r_plot = np.linspace(下界，上界，1000)
+plt.plot(r_plot，target_function(r_plot)，label= '目标函数')
 
 # 绘制样本的统计分布直方图
-plt.hist(samples, bins=100, density=True, label='Samples Histogram')
-plt.xlabel('r')
-plt.ylabel('Density')
-plt.title('Samples from Target Function via Rejection Sampling')
-plt.legend()
+plt.hist(样本，箱=100，密度=真，标签= '样本直方图')
+plt.xlabel('r ')
+plt.ylabel('密度')
+plt.title(“通过拒绝采样从目标函数中采样”)
+plt .图例()
 plt.show()
 ```
 
-### 功能描述
-1.参数定义：首先根据已知条件定义了公式中的参数 R_sun、A 、alpha 、b 、R_plt 。
-2.目标函数定义：target_function 函数按照给定公式编写，用于计算给定 r 值处的函数值。
-3.提议分布与 M 值确定：
-  a.选择均匀分布作为提议分布，通过 proposal_distribution 函数从下限 lower_bound 到上限 upper_bound 之间均匀采样。
-  b.在 [lower_bound, upper_bound] 区间内取 1000 个点（r_values ），计算目标函数在这些点的值，取最大值作为 M ，用于拒绝采样中的接受 - 拒绝判断。
-4.拒绝采样过程：通过 while 循环不断从提议分布中生成候选样本 candidate ，同时生成一个 [0, 1] 之间的均匀随机数 u ，如果 u 小于目标函数在 candidate 处的值与 M 的比值，则接受该样本加入到 samples 列表中，直到样本数量达到 13 万。
+###功能描述
+1.参数定义：首先根据已知条件定义了公式中的参数R_sun，A，alpha，b，R_plt .
+2.目标函数定义:目标函数函数按照给定公式编写,用于计算给定r值处的函数值。
+3.提议分布与M值确定：
+a.选择均匀分布作为提议分布,通过建议_分发函数从下限下限到上限上限之间均匀采样。
+b.在[下限，上限]区间内取 1000 个点(r_values)，计算目标函数在这些点的值,取最大值作为m，用于拒绝采样中的接受-拒绝判断。
+4.拒绝采样过程：通过在…期间循环不断从提议分布中生成候选样本候选人，同时生成一个[0, 1]之间的均匀随机数u，如果u小于目标函数在候选人处的值与M的比值,则接受该样本加入到样品列表中,直到样本数量达到 13 万。
 5.绘图：
   a.使用 np.linspace 生成一系列 r 值（r_plot ），计算目标函数在这些值上的结果并绘制目标函数曲线。
   b.用 plt.hist 绘制样本的统计分布直方图，设置 bins = 100 表示直方图的区间数量，density = True 表示归一化直方图使其表示概率密度，最后添加坐标轴标签、标题和图例并展示图形。
